@@ -1,10 +1,10 @@
-package classes.apring6reactivemongodb;
+package classes.spring6reactivemongodb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Apring6ReactiveMongodbApplicationTests {
+class Spring6ReactiveMongodbApplicationTests {
 
     @Test
     void contextLoads() {
