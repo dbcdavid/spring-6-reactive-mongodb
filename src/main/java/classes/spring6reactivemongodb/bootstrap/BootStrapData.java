@@ -1,7 +1,9 @@
 package classes.spring6reactivemongodb.bootstrap;
 
 import classes.spring6reactivemongodb.domain.Beer;
+import classes.spring6reactivemongodb.domain.Customer;
 import classes.spring6reactivemongodb.repositories.BeerRepository;
+import classes.spring6reactivemongodb.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 public class BootStrapData implements CommandLineRunner {
 
     private final BeerRepository beerRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -21,6 +24,11 @@ public class BootStrapData implements CommandLineRunner {
                         .doOnSuccess(foo -> {
                             loadBeerData();
                         }).subscribe();
+
+        customerRepository.deleteAll()
+                .doOnSuccess(foo -> {
+                    loadCustomerData();
+                }).subscribe();
     }
 
     private void loadBeerData(){
@@ -59,6 +67,34 @@ public class BootStrapData implements CommandLineRunner {
                 beerRepository.save(beer1).subscribe();
                 beerRepository.save(beer2).subscribe();
                 beerRepository.save(beer3).subscribe();
+            }
+        });
+    }
+
+    private void loadCustomerData() {
+        customerRepository.count().subscribe(count -> {
+            if (count == 0) {
+                Customer customer1 = Customer.builder()
+                        .customerName("John")
+                        .lastModifiedDate(LocalDateTime.now())
+                        .createdDate(LocalDateTime.now())
+                        .build();
+
+                Customer customer2 = Customer.builder()
+                        .customerName("Daenerys")
+                        .lastModifiedDate(LocalDateTime.now())
+                        .createdDate(LocalDateTime.now())
+                        .build();
+
+                Customer customer3 = Customer.builder()
+                        .customerName("Tyrion")
+                        .lastModifiedDate(LocalDateTime.now())
+                        .createdDate(LocalDateTime.now())
+                        .build();
+
+                customerRepository.save(customer1).subscribe();
+                customerRepository.save(customer2).subscribe();
+                customerRepository.save(customer3).subscribe();
             }
         });
     }
